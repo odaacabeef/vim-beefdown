@@ -4,7 +4,7 @@ function! BeefdownUpdateColorColumn()
   let current_line = line('.')
   let lines = getline(1, '$')
   let in_beef_block = 0
-  
+
   for i in range(1, len(lines))
     let line = lines[i-1]
     if line =~ '```beef\.part'
@@ -12,12 +12,12 @@ function! BeefdownUpdateColorColumn()
     elseif line =~ '```' && in_beef_block
       let in_beef_block = 0
     endif
-    
+
     if i == current_line
       break
     endif
   endfor
-  
+
   if in_beef_block
     setlocal colorcolumn=6,12,18,24,30,36,42
   else
@@ -36,5 +36,5 @@ call BeefdownUpdateColorColumn()
 
 augroup beefdown_reset
   autocmd!
-  autocmd FileType * if &ft != 'beefdown' | setlocal colorcolumn= | endif
+  autocmd FileType * if &ft != 'beefdown' | setlocal colorcolumn= | call clearmatches() | autocmd! beefdown_colorcolumn | endif
 augroup END
